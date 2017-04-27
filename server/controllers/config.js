@@ -62,6 +62,32 @@ var socketListener = function(message, socket) {
         );
     }
 
+    // system reboot
+    else if(message.type === 'reboot') {
+    	var exec = require('child_process').exec;
+
+	function execute(command, callback) {
+		exec(command, function(error, stdout, stderr){ callback(stdout); });
+	}
+
+	execute('sudo shutdown -r now', function(callback) {
+		console.log('[system_reboot] ' + callback);
+	});
+    }
+
+    // system shutdown
+    else if(message.type === 'shutdown') {
+    	var exec = require('child_process').exec;
+
+	function execute(command, callback) {
+		exec(command, function(error, stdout, stderr){ callback(stdout); });
+	}
+
+	execute('sudo shutdown -h now', function(callback) {
+		console.log('[system_shutdown] ' + callback);
+	});
+    }	
+
 };
 
 
