@@ -132,14 +132,16 @@ body {
 	width:75%;
 	margin:.5em auto;
 	position:relative;
-	height:300px;
+	/*height:300px;
 	min-height:150px;
-	height:calc(100% - 210px);
+	height:calc(100% - 210px);*/
+	height: 100%;
 }
 
 .fader-bar {
 	margin:auto;
-	width:35%;
+	/*width:35%;*/
+	width: 15%;
 	height:85%;
 	border:1px solid #fff;
 	position:relative;
@@ -166,6 +168,27 @@ body {
 	background-color:#13222d;
     transition:all 0.2s;
 }
+
+.fader-mark, .fader-common {
+	border-bottom: 1px solid #aaa;
+	height: 8pt;
+	font-size: 8pt;
+	text-align: left;
+	width: 30px;
+	right: 100%;
+	position: absolute;
+	color:#aaa;
+}
+
+.fader-mark {
+	border-bottom: 2px solid #ddd;
+}
+
+/*.fader-mark-label {
+	position: absolute;
+	right: 100%;
+}*/
+
 
 .fader-handle {
 	width:100%;
@@ -268,6 +291,11 @@ body {
 	font-size:30%;
 }
 
+#message-dialog {
+	z-index:1002;
+	display:none;
+}
+
 #error-dialog {
 	background-color:#ee0000;
 	z-index:1001;
@@ -317,6 +345,14 @@ textarea, input, button {
     -webkit-box-sizing:border-box;
     box-sizing:border-box;
     border:1px solid #fff;
+}
+
+#system_reboot {
+	background-color:#eeaa00;
+}
+
+#system_shutdown {
+	background-color:#ee0000;
 }
 
 button {
