@@ -2,6 +2,7 @@
 	height:100%;
 	padding:0;
 	margin:0;
+	width: 100%;
 }
 
 body {
@@ -17,14 +18,13 @@ body {
 	-ms-user-select: none;
 	user-select: none;
 
-    /* native fast clicks on Metro IE */
-    -ms-touch-action: none;
+	/* native fast clicks on Metro IE */
+	-ms-touch-action: none;
 }
 
 #wrapper {
-	padding:10px 0.5%;
-	height:97%;
-	height:calc(100% - 20px);
+	padding:0px 0.5%;
+	height:100%;
 	min-width:750px;
 }
 
@@ -32,6 +32,8 @@ body {
 	border-bottom:1px solid #fff;
 	margin:0 -0.5%;
 	position:relative;
+	height: 10%;
+	max-height: 52px;
 }
 
 #headline {
@@ -51,10 +53,9 @@ body {
 #navi {
 	list-style-type:none;
 	margin:0;
-	margin-top:1em;
-	margin-left:.5em;
 	padding:0;
 	min-height:52px;
+	white-space: nowrap;
 }
 
 #navi.hidden > li {
@@ -80,9 +81,8 @@ body {
 }
 
 #content {
-	padding-top:1.5em;
-	height:80%;
-	height:calc(100% - 100px);
+	height: calc(100% - 53px);
+	min-height:90%;
 	overflow:auto;
 	white-space:nowrap;
 }
@@ -121,21 +121,19 @@ body {
 	background-color:#116284;
 	padding:8px 4px;
 	cursor:pointer;
+	height:5%;
+	max-height: 24px;
 }
 
 .group {
-    height:1px;
-    margin-top:8px;
+	height:.5%;
 }
 
 .fader {
 	width:75%;
-	margin:.5em auto;
+	margin:auto;
 	position:relative;
-	/*height:300px;
-	min-height:150px;
-	height:calc(100% - 210px);*/
-	height: 100%;
+	height: 81%;
 }
 
 .fader-bar {
@@ -174,7 +172,7 @@ body {
 	height: 8pt;
 	font-size: 8pt;
 	text-align: left;
-	width: 30px;
+	width: 20px;
 	right: 100%;
 	position: absolute;
 	color:#aaa;
@@ -183,12 +181,6 @@ body {
 .fader-mark {
 	border-bottom: 2px solid #ddd;
 }
-
-/*.fader-mark-label {
-	position: absolute;
-	right: 100%;
-}*/
-
 
 .fader-handle {
 	width:100%;
@@ -214,13 +206,14 @@ body {
 .fader-biglabel {
 	font-size:125%;
 	font-weight:bold;
+	height:5%;
 }
 
 .fader-label {
 	font-size:60%;
-	margin-bottom:1em;
-    text-overflow: ellipsis;
-    overflow: hidden;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	height:3.5%;
 }
 
 .fader-settings {
