@@ -25,6 +25,12 @@ var remoteApp = {
 		// height difference #content-.fader for computation fallback [e.g. CSS calc(100% - 210px)] 
 		faderHeightDifference: 210,
 
+		// value for '0 dB' from fader messages range
+		faderMarkValue: 107,
+
+		// '0 dB' mark position value in percent for .fader-mark: (1 - faderMarkValue/maxFaderValue) * 100 = 58,039215686
+		faderMarkPercentPosition: 81.176470588,
+
         // minimum distance to send fader change value
 		faderMoveMinValueDistance: 5,
 		
@@ -35,6 +41,38 @@ var remoteApp = {
         channelCount: 32,
         auxCount: 8,
         busCount: 8,
+
+		/**
+		 * dBs meter rendering information
+		 */
+		meters: {
+			channel: [
+				["+10",100],
+				["5",231],
+				["0",207],
+				["5",179],
+				["10",143],
+				["15",105],
+				["20",79],
+				["30",43],
+				["40",23],
+				["50",11],
+				["-∞",0]
+			],
+			bus: [
+				["0",100],
+				["5",233],
+				["10",203],
+				["15",177],
+				["20",147],
+				["30",105],
+				["40",75],
+				["50",47],
+				["60",29],
+				["70",21],
+				["-∞",0]
+			]
+		},
 		
 		/**
 		 * configuration for initial tabs and controls
@@ -386,6 +424,39 @@ var remoteApp = {
 						<div class="fader-bar">\
 							<div class="fader-background"></div>\
 							<div class="fader-level" style="height:100%"></div>\
+							<div class="fader-common" style="bottom:100%">\
+								<div class="fader-mark-label">+10</div>\
+							</div>\
+							<div class="fader-common" style="bottom:90.588235294%">\
+								<div class="fader-mark-label">5</div>\
+							</div>\
+							<div class="fader-mark">\
+								<div class="fader-mark-label">0</div>\
+							</div>\
+							<div class="fader-common" style="bottom:70.196078431%">\
+								<div class="fader-mark-label">5</div>\
+							</div>\
+							<div class="fader-common" style="bottom:56.078431373%">\
+								<div class="fader-mark-label">10</div>\
+							</div>\
+							<div class="fader-common" style="bottom:41.176470588%">\
+								<div class="fader-mark-label">15</div>\
+							</div>\
+							<div class="fader-common" style="bottom:30.980392157%">\
+								<div class="fader-mark-label">20</div>\
+							</div>\
+							<div class="fader-common" style="bottom:16.862745098%">\
+								<div class="fader-mark-label">30</div>\
+							</div>\
+							<div class="fader-common" style="bottom:9.019607843%">\
+								<div class="fader-mark-label">40</div>\
+							</div>\
+							<div class="fader-common" style="bottom:4.31372549%">\
+								<div class="fader-mark-label">50</div>\
+							</div>\
+							<div class="fader-common" style="bottom:0%">\
+								<div class="fader-mark-label">-∞</div>\
+							</div>\
 						</div>\
 						\
 						<div class="fader-handle' + (target == 'sum' ? ' fader-handle-sum' : '') + '"></div>\
@@ -550,10 +621,20 @@ var remoteApp = {
 			app.refreshFaderHeight();
 		});
 
-        // configuration
-        $('#configuration_save').click(function() {
-            app.saveConfiguration();
-        });
+		// configuration
+		$('#configuration_save').click(function() {
+			app.saveConfiguration();
+		});
+
+		// reboot
+		$('#system_reboot').click(function() {
+			app.systemReboot();
+		});
+
+		// shutdown
+		$('#system_shutdown').click(function() {
+			app.systemShutdown();
+		});
 	},
 	
 	/**
@@ -976,6 +1057,8 @@ var remoteApp = {
 		if(update.fader && !app.status.movedFaders[id]) {
 			faderPercent = (1 - app.status.fader[id]/app.config.maxFaderValue) * app.config.maxHandlePercent;
 			$control.find('.fader-handle').css('top', faderPercent + '%');
+
+			$control.find('.fader-mark').css('bottom', app.config.faderMarkPercentPosition + '%');
 		}
 		
 		// update displayed meter level
@@ -1124,6 +1207,19 @@ var remoteApp = {
     },
 	
 	/**
+	 * call system reboot/shutdown
+	 */
+	systemReboot: function() {
+		if(confirm('Do you really want to reboot 01v96 Remote?')){
+			this.sendControlMessage('reboot', 'system');
+		}
+	},
+	systemShutdown: function() {
+		if(confirm('Do you really want to shutdown 01v96 Remote?')){
+			this.sendControlMessage('shutdown', 'system');
+		}
+	},
+	/**
 	 * send WebSocket message to the server
 	 * @param {object} obj
 	 */
@@ -1138,8 +1234,8 @@ var remoteApp = {
 	
 	/**
 	 * send message to the server
-	 * @param {string} type on, fader, level
-	 * @param {String} target channel, sum, aux, bus
+	 * @param {string} type on, fader, level, reboot, shutdown
+	 * @param {String} target channel, sum, aux, bus, system
 	 * @param {int} num default 0
 	 * @param {int} value default 0
 	 * @param {int} num2 default 0 [used for aux send]
