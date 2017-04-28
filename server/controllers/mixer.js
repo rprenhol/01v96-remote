@@ -26,6 +26,11 @@ var init = function() {
             device = require('../modules/mixer_dummy');
             break;
 
+	case 'midiusb':
+	    console.log('[mixer] Using MIDI/USB port adapter');
+	    device = require('../modules/mixer_midiusb');
+	    break;
+
         // standard MIDI interface
         default:
             console.log('[mixer] Using standard MIDI controller');
